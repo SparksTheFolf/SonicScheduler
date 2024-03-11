@@ -3,6 +3,13 @@ from tkinter import ttk
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 from scheduler import Scheduler
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+YOUR_CLIENT_SECRET = os.getenv('YOUR_CLIENT_SECRET')
 
 class MainWindow(tk.Frame):
     def __init__(self, master=None):
@@ -10,6 +17,7 @@ class MainWindow(tk.Frame):
         self.master = master
         self.scheduler = Scheduler()
         self.create_widgets()
+        self.nametowidget(self.master).title("Radio Show Scheduler")
 
 
     def create_widgets(self):

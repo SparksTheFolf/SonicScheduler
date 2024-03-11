@@ -2,7 +2,7 @@
  SonicScheduler
 
 ### Use Python: 
-Version 3.10.2
+Version 3.10.6
 
 ### Setup:
 1. Download and extract whole folder
