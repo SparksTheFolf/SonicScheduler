@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-YOUR_CLIENT_ID = os.getenv('YOUR_CLIENT_ID')
+MY_ENV_VAR = os.getenv('YOUR_CLIENT_ID')
 YOUR_CLIENT_SECRET = os.getenv('YOUR_CLIENT_SECRET')
 
 class MainWindow(tk.Frame):
