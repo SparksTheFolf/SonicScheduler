@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy
 from scheduler import Scheduler
 
 class MainWindow(tk.Frame):
@@ -8,6 +10,7 @@ class MainWindow(tk.Frame):
         self.master = master
         self.scheduler = Scheduler()
         self.create_widgets()
+
 
     def create_widgets(self):
         # Create labels
@@ -40,10 +43,22 @@ class MainWindow(tk.Frame):
         self.label_schedule.grid(row=4, column=0, sticky="w")
         self.listbox_schedule.grid(row=5, column=0, columnspan=3)
 
+        client_credentials_manager = SpotifyClientCredentials(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET')
+        self.spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
     def add_song(self):
         song_info = self.entry_songs.get()
-        # Parse song information and add it to the schedule
-        self.listbox_schedule.insert(tk.END, f"Song: {song_info}")
+        # Call Spotify API to search for the song
+        results = self.spotify.search(q=song_info, limit=1)
+        if results['tracks']['items']:
+            song = results['tracks']['items'][0]
+            artist = song['artists'][0]['name']
+            song_name = song['name']
+            duration_ms = song['duration_ms']
+            duration_min = duration_ms / 60000
+            self.listbox_schedule.insert(tk.END, f"Song: {song_name} - Artist: {artist} - Duration: {duration_min:.2f} min")
+        else:
+            self.listbox_schedule.insert(tk.END, "Song not found!")
 
     def schedule_show(self):
         # Get talk time and ad time from entry fields
